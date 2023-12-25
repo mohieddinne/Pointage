@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const swaggerSpec = require('./swaggerConfig'); 
 
 const app = express();
 const port = 8000
@@ -22,6 +23,8 @@ db.on('error', (err) => {
 db.once('open', () => {
   console.log('Connected to MongoDB');
 });
+app.use('/api-docs', swaggerSpec.serveSwagger, swaggerSpec.setupSwagger);
+
 
 const employeeRoutes = require('./src/routes/employeeRoutes');
 app.use('/api', employeeRoutes);
